@@ -8,6 +8,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8"
 spacy = "^3.7.4"
+torch = "2.2.2"
+torchtext = "0.17.2"
+datasets = "^2.19.1"
+evaluate = "^0.4.2"
 
 [build-system]
 requires = ["poetry-core"]
