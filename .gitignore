@@ -1,4 +1,5 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-dsbk/*
+/seq2seq/ds/*
+#*.pickle
