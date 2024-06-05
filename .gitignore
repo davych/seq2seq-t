@@ -3,4 +3,5 @@
 /workspace.xml
 /seq2seq/ds/*
 *.arrow
-#*.pickle
+*.pickle
+*.zip

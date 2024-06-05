@@ -92,6 +92,8 @@ min_freq = 2
 unk_token = "<unk>"
 pad_token = "<pad>"
 
+sos_token = "<sos>"
+eos_token = "<eos>"
 special_tokens = [
     unk_token,
     pad_token,
@@ -99,12 +101,12 @@ special_tokens = [
     eos_token,
 ]
 en_vocab = torchtext.vocab.build_vocab_from_iterator(
-    train_data["english"],
+    train_data["en_tokens"],
     min_freq=min_freq,
     specials=special_tokens,
 )
 zh_vocab = torchtext.vocab.build_vocab_from_iterator(
-    train_data["chinese"],
+    train_data["cn_tokens"],
     min_freq=min_freq,
     specials=special_tokens,
 )
@@ -143,9 +145,8 @@ test_data = test_data.with_format(
     output_all_columns=True,
 )
 
-
-torch.save(en_vocab, './dss/en_vocab.pickle')
-torch.save(zh_vocab, './dss/zh_vocab.pickle')
-train_data.save_to_disk('./dss/train')
-valid_data.save_to_disk('./dss/valid')
-test_data.save_to_disk('./dss/test')
+torch.save(en_vocab, './dsss/en_vocab.pickle')
+torch.save(zh_vocab, './dsss/zh_vocab.pickle')
+train_data.save_to_disk('./dsss/train')
+valid_data.save_to_disk('./dsss/valid')
+test_data.save_to_disk('./dsss/test')
