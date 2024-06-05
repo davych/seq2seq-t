@@ -126,70 +126,26 @@ train_data = train_data.map(numericalize_example, fn_kwargs=fn_kwargs)
 valid_data = valid_data.map(numericalize_example, fn_kwargs=fn_kwargs)
 test_data = test_data.map(numericalize_example, fn_kwargs=fn_kwargs)
 
-# data_type = "torch"
-# format_columns = ["en_ids", "cn_ids"]
-# train_data = train_data.with_format(
-#     type=data_type, columns=format_columns, output_all_columns=True
-# )
+data_type = "torch"
+format_columns = ["en_ids", "cn_ids"]
 
-train_data.remove_columns('chinese')
-train_data.remove_columns('english')
-
-# valid_data = valid_data.with_format(
-#     type=data_type,
-#     columns=format_columns,
-#     output_all_columns=True,
-# )
-
-
-valid_data.remove_columns('chinese')
-valid_data.remove_columns('english')
-
-# test_data = test_data.with_format(
-#     type=data_type,
-#     columns=format_columns,
-#     output_all_columns=True,
-# )
+train_data = train_data.with_format(
+    type=data_type, columns=format_columns, output_all_columns=True
+)
+valid_data = valid_data.with_format(
+    type=data_type,
+    columns=format_columns,
+    output_all_columns=True,
+)
+test_data = test_data.with_format(
+    type=data_type,
+    columns=format_columns,
+    output_all_columns=True,
+)
 
 
-test_data.remove_columns('chinese')
-test_data.remove_columns('english')
-# with open("./dataset/zh_vocab_itos5.pickle", "wb") as f:
-#     pickle.dump(json.dumps(zh_vocab.get_itos()), f)
-#
-# with open("./dataset/zh_vocab_stoi5.pickle", "wb") as f:
-#     pickle.dump(json.dumps(zh_vocab.get_stoi()), f)
-#
-#
-# with open("./dataset/en_vocab_itos5.pickle", "wb") as f:
-#     pickle.dump(json.dumps(en_vocab.get_itos()), f)
-#
-# with open("./dataset/en_vocab_stoi5.pickle", "wb") as f:
-#     pickle.dump(json.dumps(en_vocab.get_stoi()), f)
-
-with open("./dataset/train_data5.pickle", "wb") as f:
-    td = json.dumps({
-        'en_tokens': train_data['en_tokens'],
-        'cn_tokens': train_data['cn_tokens'],
-        'en_ids': train_data['en_ids'],
-        'cn_ids': train_data['cn_ids'],
-    })
-    pickle.dump(td, f)
-
-with open("./dataset/valid_data5.pickle", "wb") as f:
-    vd = json.dumps({
-        'en_tokens': valid_data['en_tokens'],
-        'cn_tokens': valid_data['cn_tokens'],
-        'en_ids': valid_data['en_ids'],
-        'cn_ids': valid_data['cn_ids'],
-    })
-    pickle.dump(vd, f)
-
-with open("./dataset/test_data5.pickle", "wb") as f:
-    ted = json.dumps({
-        'en_tokens': test_data['en_tokens'],
-        'cn_tokens': test_data['cn_tokens'],
-        'en_ids': test_data['en_ids'],
-        'cn_ids': test_data['cn_ids'],
-    })
-    pickle.dump(ted, f)
+torch.save(en_vocab, './dss/en_vocab.pickle')
+torch.save(zh_vocab, './dss/zh_vocab.pickle')
+train_data.save_to_disk('./dss/train')
+valid_data.save_to_disk('./dss/valid')
+test_data.save_to_disk('./dss/test')
