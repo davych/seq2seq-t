@@ -7,6 +7,6 @@ import pandas as pd
 #
 # print(train_dataset['en_ids'])
 
-vocab = torch.load('./dsss/en_vocab.pickle')
+vocab = torch.load('./ns/en_vocab.pickle')
 
-print(len(vocab.get_itos()))
+print(len(vocab.get_itos()), vocab.get_itos())

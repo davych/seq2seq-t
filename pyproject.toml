@@ -12,6 +12,7 @@ torch = "2.2.2"
 torchtext = "0.17.2"
 datasets = "^2.19.1"
 evaluate = "^0.4.2"
+jieba = "^0.42.1"
 
 [build-system]
 requires = ["poetry-core"]

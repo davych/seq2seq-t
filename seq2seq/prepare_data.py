@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import spacy
 import datasets
+import jieba
 import torchtext
 import tqdm
 import evaluate
@@ -45,21 +46,23 @@ valid_df = pd.DataFrame(valid_arr)
 
 chinese_char_pattern = re.compile(r'[\u4e00-\u9fff]')
 
-mask_train = train_df['english'].apply(lambda x: not bool(chinese_char_pattern.search(x)))
-mask_valid = train_df['english'].apply(lambda x: not bool(chinese_char_pattern.search(x)))
+mask_train1 = train_df['english'].apply(lambda x: not bool(chinese_char_pattern.search(x)))
+mask_valid1 = train_df['english'].apply(lambda x: not bool(chinese_char_pattern.search(x)))
 
-filtered_train_df = train_df[mask_train]
-filtered_valid_df = valid_df[mask_valid]
+mask_train2 = train_df['chinese'].apply(lambda x: bool(chinese_char_pattern.search(x)))
+mask_valid2 = train_df['chinese'].apply(lambda x: bool(chinese_char_pattern.search(x)))
+
+filtered_train_df = train_df[mask_train1 & mask_train2]
+filtered_valid_df = valid_df[mask_valid1 & mask_valid2]
 
 dataset_valid = datasets.Dataset.from_pandas(filtered_valid_df)
 dataset_train = datasets.Dataset.from_pandas(filtered_train_df)
 
 en_nlp = spacy.load("en_core_web_sm")
-zh_nlp = spacy.load("zh_core_web_sm")
 
-def tokenize_example(example, en_nlp, zh_nlp, max_length, lower, sos_token, eos_token):
+def tokenize_example(example, en_nlp, max_length, lower, sos_token, eos_token):
     en_tokens = [token.text for token in en_nlp.tokenizer(example["english"])][:max_length]
-    cn_tokens = [token.text for token in zh_nlp.tokenizer(example["chinese"])][:max_length]
+    cn_tokens = list(jieba.cut(example["chinese"]))[:max_length]
     if lower:
         en_tokens = [token.lower() for token in en_tokens]
         cn_tokens = [token.lower() for token in cn_tokens]
@@ -73,7 +76,6 @@ sos_token = "<sos>"
 eos_token = "<eos>"
 fn_kwargs = {
     "en_nlp": en_nlp,
-    "zh_nlp": zh_nlp,
     "max_length": max_length,
     "lower": lower,
     "sos_token": sos_token,
@@ -88,10 +90,9 @@ dataset_train = split_dataset['train']
 train_data = dataset_train.map(tokenize_example, fn_kwargs=fn_kwargs)
 valid_data = dataset_valid.map(tokenize_example, fn_kwargs=fn_kwargs)
 test_data = dataset_test.map(tokenize_example, fn_kwargs=fn_kwargs)
-min_freq = 2
+min_freq = 4
 unk_token = "<unk>"
 pad_token = "<pad>"
-
 sos_token = "<sos>"
 eos_token = "<eos>"
 special_tokens = [
@@ -145,8 +146,8 @@ test_data = test_data.with_format(
     output_all_columns=True,
 )
 
-torch.save(en_vocab, './dsss/en_vocab.pickle')
-torch.save(zh_vocab, './dsss/zh_vocab.pickle')
-train_data.save_to_disk('./dsss/train')
-valid_data.save_to_disk('./dsss/valid')
-test_data.save_to_disk('./dsss/test')
+torch.save(en_vocab, './nss/en_vocab.pickle')
+torch.save(zh_vocab, './nss/zh_vocab.pickle')
+train_data.save_to_disk('./nss/train')
+valid_data.save_to_disk('./nss/valid')
+test_data.save_to_disk('./nss/test')
