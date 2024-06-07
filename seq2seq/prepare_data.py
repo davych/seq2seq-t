@@ -90,7 +90,7 @@ dataset_train = split_dataset['train']
 train_data = dataset_train.map(tokenize_example, fn_kwargs=fn_kwargs)
 valid_data = dataset_valid.map(tokenize_example, fn_kwargs=fn_kwargs)
 test_data = dataset_test.map(tokenize_example, fn_kwargs=fn_kwargs)
-min_freq = 4
+min_freq = 50
 unk_token = "<unk>"
 pad_token = "<pad>"
 sos_token = "<sos>"
@@ -145,7 +145,7 @@ test_data = test_data.with_format(
     columns=format_columns,
     output_all_columns=True,
 )
-
+print(len(zh_vocab.get_itos()), len(en_vocab.get_itos()))
 torch.save(en_vocab, './nss/en_vocab.pickle')
 torch.save(zh_vocab, './nss/zh_vocab.pickle')
 train_data.save_to_disk('./nss/train')

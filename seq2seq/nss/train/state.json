@@ -1,40 +1,13 @@
 {
   "_data_files": [
     {
-      "filename": "data-00000-of-00011.arrow"
+      "filename": "data-00000-of-00002.arrow"
     },
     {
-      "filename": "data-00001-of-00011.arrow"
-    },
-    {
-      "filename": "data-00002-of-00011.arrow"
-    },
-    {
-      "filename": "data-00003-of-00011.arrow"
-    },
-    {
-      "filename": "data-00004-of-00011.arrow"
-    },
-    {
-      "filename": "data-00005-of-00011.arrow"
-    },
-    {
-      "filename": "data-00006-of-00011.arrow"
-    },
-    {
-      "filename": "data-00007-of-00011.arrow"
-    },
-    {
-      "filename": "data-00008-of-00011.arrow"
-    },
-    {
-      "filename": "data-00009-of-00011.arrow"
-    },
-    {
-      "filename": "data-00010-of-00011.arrow"
+      "filename": "data-00001-of-00002.arrow"
     }
   ],
-  "_fingerprint": "797e52de3a3426a9",
+  "_fingerprint": "be0a31ec085c674d",
   "_format_columns": [
     "en_ids",
     "cn_ids"
